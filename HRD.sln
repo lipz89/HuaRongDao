@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2019
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HRD", "HRD\HRD.csproj", "{D54428D7-F4EB-4198-A942-40B869E3CB03}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D54428D7-F4EB-4198-A942-40B869E3CB03}.Debug|x86.ActiveCfg = Debug|x86
+		{D54428D7-F4EB-4198-A942-40B869E3CB03}.Debug|x86.Build.0 = Debug|x86
+		{D54428D7-F4EB-4198-A942-40B869E3CB03}.Release|x86.ActiveCfg = Release|x86
+		{D54428D7-F4EB-4198-A942-40B869E3CB03}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {71419E1E-FE0D-427C-82CB-C0A545E44BE8}
+	EndGlobalSection
+EndGlobal
