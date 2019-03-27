@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 
 namespace HRD
 {
@@ -8,31 +8,25 @@ namespace HRD
 
     public class Block
     {
-        public readonly BlockType BType;
+        public BlockType BType { get; set; }
         public Point Location;
-
+        private Block() { }
         public Block(Block block)
         {
-            this.index = 0;
-            this.direction = Direction.Up;
-            this.Pardent = null;
-            this.backPicture = null;
+            this.ID = block.ID;
             this.Location = block.Location;
             this.BType = block.BType;
             this.Text = block.Text;
-            this.pictureID = block.pictureID;
+            this.PictureId = block.PictureId;
         }
 
-        public Block(Point location, BlockType blockType, string name, int PicID)
+        public Block(int id, Point location, BlockType blockType, string name, int picId)
         {
-            this.index = 0;
-            this.direction = Direction.Up;
-            this.Pardent = null;
-            this.backPicture = null;
+            this.ID = id;
             this.Location = location;
             this.BType = blockType;
             this.Text = name;
-            this.pictureID = PicID;
+            this.PictureId = picId;
         }
 
         public bool Contains(Point point)
@@ -42,7 +36,7 @@ namespace HRD
 
         public override bool Equals(object obj)
         {
-            if (!((obj != null) && (obj is Block)))
+            if (!(obj is Block))
             {
                 return false;
             }
@@ -55,19 +49,19 @@ namespace HRD
             return (this.Location.GetHashCode() + this.BType.GetHashCode());
         }
 
-        public int getIndex(string name, Game game)
-        {
-            int index = -1;
-            foreach (Block b in game.Blocks)
-            {
-                if (b.Text == name)
-                {
-                    this.index = b.index;
-                    return index;
-                }
-            }
-            return index;
-        }
+        //public int GetIndex(string name, Game game)
+        //{
+        //    int index = -1;
+        //    foreach (Block b in game.Blocks)
+        //    {
+        //        if (b.Text == name)
+        //        {
+        //            this.ID = b.ID;
+        //            return index;
+        //        }
+        //    }
+        //    return index;
+        //}
 
         public List<Point> GetPoints()
         {
@@ -77,19 +71,19 @@ namespace HRD
                 pList.Add(this.Location);
                 return pList;
             }
-            if (this.BType == BlockType.TwoH)
+            if (this.BType == BlockType.Horizontal)
             {
                 pList.Add(this.Location);
                 pList.Add(new Point(this.Location.X + 1, this.Location.Y));
                 return pList;
             }
-            if (this.BType == BlockType.TwoV)
+            if (this.BType == BlockType.Vertical)
             {
                 pList.Add(this.Location);
                 pList.Add(new Point(this.Location.X, this.Location.Y + 1));
                 return pList;
             }
-            if (this.BType == BlockType.Four)
+            if (this.BType == BlockType.Target)
             {
                 pList.Add(this.Location);
                 pList.Add(new Point(this.Location.X + 1, this.Location.Y));
@@ -126,52 +120,80 @@ namespace HRD
             return true;
         }
 
-        public void showDirection(Direction dr, PictureBox p_Btn, Image img)
+        public void ShowDirection(Direction dr, PictureBox pBtn, Image img)
         {
             Point p = new Point(0, 0);
             switch (dr)
             {
                 case Direction.Up:
-                    p = new Point(p_Btn.Width / 3, 0);
+                    p = new Point(pBtn.Width / 3, 0);
                     break;
 
                 case Direction.Down:
-                    p = new Point(p_Btn.Width / 3, (p_Btn.Height / 3) * 2);
+                    p = new Point(pBtn.Width / 3, (pBtn.Height / 3) * 2);
                     break;
 
                 case Direction.Left:
-                    p = new Point(0, p_Btn.Height / 3);
+                    p = new Point(0, pBtn.Height / 3);
                     break;
 
                 case Direction.Right:
-                    p = new Point((p_Btn.Width / 3) * 2, p_Btn.Height / 3);
+                    p = new Point((pBtn.Width / 3) * 2, pBtn.Height / 3);
                     break;
             }
-            Bitmap b = new Bitmap(p_Btn.Image, p_Btn.Width, p_Btn.Height);
+            Bitmap b = new Bitmap(pBtn.Image, pBtn.Width, pBtn.Height);
             Graphics g = Graphics.FromImage(b);
             Rectangle origReg = new Rectangle(0, 0, img.Size.Width, img.Size.Height);
-            Rectangle destReg = new Rectangle(p.X, p.Y, p_Btn.Width / 3, p_Btn.Height / 3);
+            Rectangle destReg = new Rectangle(p.X, p.Y, pBtn.Width / 3, pBtn.Height / 3);
             g.DrawImage(img, destReg, origReg, GraphicsUnit.Pixel);
-            frmMain._cur_pic = new Bitmap(p_Btn.Image, p_Btn.Image.Size.Width, p_Btn.Image.Size.Height);
-            p_Btn.Image = b;
+            //frmMain._cur_pic = new Bitmap(pBtn.Image, pBtn.Image.Size.Width, pBtn.Image.Size.Height);
+            pBtn.Image = b;
             g.Dispose();
         }
 
-        public Image backPicture { get; set; }
+        public int ID { get; set; }
 
-        public Direction direction { get; set; }
-
-        public int index { get; set; }
-
-        public Control Pardent { get; set; }
-
-        public int pictureID { get; set; }
+        public int PictureId { get; set; }
 
         public string Text { get; set; }
 
         public override string ToString()
         {
-            return this.Text + " " + this.Location;
+            return $"id={ID};x={Location.X};y={Location.Y};text={Text};picid={PictureId};type={BType}";
+        }
+
+        public static Block From(string text)
+        {
+            var block = new Block();
+            var sps = text.Split(';');
+            foreach (var sp in sps)
+            {
+                var kv = sp.Split('=');
+                var val = kv[1].Trim();
+                switch (kv[0].Trim())
+                {
+                    case "id":
+                        block.ID = int.Parse(val);
+                        break;
+                    case "x":
+                        block.Location.X = int.Parse(val);
+                        break;
+                    case "y":
+                        block.Location.Y = int.Parse(val);
+                        break;
+                    case "picid":
+                        block.PictureId = int.Parse(val);
+                        break;
+                    case "type":
+                        block.BType = (BlockType)Enum.Parse(typeof(BlockType), val);
+                        break;
+                    case "text":
+                        block.Text = val;
+                        break;
+                }
+            }
+
+            return block;
         }
     }
 }

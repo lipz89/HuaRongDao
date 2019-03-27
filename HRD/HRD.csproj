@@ -39,6 +39,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
@@ -57,7 +58,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="Ini.cs" />
     <Compile Include="MoveProcess.cs" />
-    <Compile Include="MoveStep.cs" />
+    <Compile Include="MoveItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Resource.cs" />
     <Compile Include="Solver.cs" />
@@ -68,22 +69,11 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="XML\01横刀立马.xml" />
-    <EmbeddedResource Include="XML\02三军联防.xml" />
-    <EmbeddedResource Include="XML\03兵将联防.xml" />
-    <EmbeddedResource Include="XML\04兵临曹营.xml" />
-    <EmbeddedResource Include="XML\05层层设防.xml" />
-    <EmbeddedResource Include="XML\06调兵遣将.xml" />
-    <EmbeddedResource Include="XML\07巧过五关.xml" />
-    <EmbeddedResource Include="XML\08守口如瓶.xml" />
-    <EmbeddedResource Include="XML\09水泄不通.xml" />
-    <EmbeddedResource Include="XML\10五将逼宫.xml" />
-    <EmbeddedResource Include="XML\11云遮雾障.xml" />
-    <EmbeddedResource Include="XML\12重重包围.xml" />
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include=".vs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="pic\0.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -130,6 +120,20 @@
     <Content Include="pic\up.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="maps\01横刀立马.map" />
+    <EmbeddedResource Include="maps\02三军联防.map" />
+    <EmbeddedResource Include="maps\03兵将联防.map" />
+    <EmbeddedResource Include="maps\04兵临曹营.map" />
+    <EmbeddedResource Include="maps\05层层设防.map" />
+    <EmbeddedResource Include="maps\06调兵遣将.map" />
+    <EmbeddedResource Include="maps\07巧过五关.map" />
+    <EmbeddedResource Include="maps\08守口如瓶.map" />
+    <EmbeddedResource Include="maps\09水泄不通.map" />
+    <EmbeddedResource Include="maps\10五将逼宫.map" />
+    <EmbeddedResource Include="maps\11云遮雾障.map" />
+    <EmbeddedResource Include="maps\12重重包围.map" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSHARP.Targets" />
   <ProjectExtensions>

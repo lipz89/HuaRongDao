@@ -14,7 +14,7 @@ namespace HRD
 
     public static class DirectionExtensions
     {
-        public static Direction[] Directions;
+        public static readonly Direction[] Directions;
         private static readonly Dictionary<Direction, string> dirs = new Dictionary<Direction, string>()
         {
             {Direction.Down, "下" },
@@ -40,17 +40,31 @@ namespace HRD
             var s = directions.Select(x => x.String()).ToList();
             if (s.Any())
             {
-                if (s.Count == 1)
-                {
-                    return s.First() + "1";
-                }
-
-                if (s.Distinct().Count() == 1)
-                {
-                    return s.First() + "2";
-                }
-
                 return string.Join("", s);
+                //var str = "";
+                //var last = "";
+                //var count = 1;
+                //for (int i = 0; i < s.Count; i++)
+                //{
+                //    var th = s[i];
+                //    if (last == th)
+                //    {
+                //        count++;
+                //    }
+                //    else
+                //    {
+                //        if (count > 1)
+                //            str += count;
+                //        str += th;
+                //        last = th;
+                //        count = 1;
+                //    }
+                //}
+
+                //if (count > 1)
+                //    str += count;
+
+                //return str;
             }
 
             return null;

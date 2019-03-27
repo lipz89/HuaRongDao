@@ -9,15 +9,7 @@
 
     public class Ini
     {
-        public static string _jsIP = "";
-        public static short _picTM = 200;
-        public static string _sIP = "";
-        public static short _TMD = 10;
-        public static bool _ZJ = false;
-        public static bool autoHide = false;
-        public static bool autoStart = false;
-        private string filename;
-        public static bool Innet = true;
+        private readonly string filename;
 
         public Ini(string iniFilename)
         {
@@ -31,7 +23,7 @@
             }
         }
 
-        private static void _writeFile(string fileName, string text)
+        private static void WriteFile(string fileName, string text)
         {
             FileStream fs = null;
             StreamWriter sw = null;
@@ -60,16 +52,16 @@
 
         public static void DoStepFile()
         {
-            OpenFileDialog OpenFileDialog = new OpenFileDialog();
-            OpenFileDialog.Filter = "文本文件(*.txt)|*.txt";
-            OpenFileDialog.Title = "导入数据......";
-            OpenFileDialog.InitialDirectory = @"c:\";
-            OpenFileDialog.RestoreDirectory = true;
-            OpenFileDialog.ShowHelp = true;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "文本文件(*.txt)|*.txt";
+            openFileDialog.Title = "导入数据......";
+            openFileDialog.InitialDirectory = @"c:\";
+            openFileDialog.RestoreDirectory = true;
+            openFileDialog.ShowHelp = true;
             string fileName = null;
-            if (OpenFileDialog.ShowDialog() == DialogResult.OK)
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                fileName = OpenFileDialog.FileName;
+                fileName = openFileDialog.FileName;
             }
             else
             {
@@ -100,43 +92,35 @@
             }
         }
 
-        public static void GetHrDFile(string ResourceName)
+        public static string GetMap(string resourceName)
         {
-            string text = getStrByResFileName(ResourceName);
-            _writeFile(@"C:\Hrd_temp.xml", text);
+            using (var pStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName))
+            {
+                using (var streamReader = new StreamReader(pStream, Encoding.UTF8))
+                {
+                    return streamReader.ReadToEnd();
+                }
+            }
         }
 
         [DllImport("kernel32")]
         private static extern int GetPrivateProfileString(string section, string key, string def, StringBuilder retVal, int size, string filePath);
-        private static string getStrByResFileName(string ResourceName)
-        {
-            Stream pStream = Assembly.GetExecutingAssembly().GetManifestResourceStream(ResourceName);
-            string str = "";
-            StreamReader m_streamReader = new StreamReader(pStream, Encoding.UTF8);
-            m_streamReader.BaseStream.Seek(0L, SeekOrigin.Begin);
-            for (string strLine = m_streamReader.ReadLine(); strLine != null; strLine = m_streamReader.ReadLine())
-            {
-                str = str + strLine + "\n";
-            }
-            m_streamReader.Close();
-            return str;
-        }
 
-        public string ReadValue(string Section, string Key)
+        public string ReadValue(string section, string key)
         {
             StringBuilder temp = new StringBuilder(0xff);
-            int i = GetPrivateProfileString(Section, Key, "", temp, 0xff, this.filename);
+            int i = GetPrivateProfileString(section, key, "", temp, 0xff, this.filename);
             return temp.ToString();
         }
 
-        public static string ReadValue(string Section, string Key, string filename)
+        public static string ReadValue(string section, string key, string filename)
         {
             StringBuilder temp = new StringBuilder(0xff);
-            int i = GetPrivateProfileString(Section, Key, "", temp, 0xff, filename);
+            int i = GetPrivateProfileString(section, key, "", temp, 0xff, filename);
             return temp.ToString();
         }
 
-        public static void saveFile(ListView lBox)
+        public static void SaveFile(ListView lBox)
         {
             if (lBox.Items.Count < 1)
             {
@@ -170,7 +154,7 @@
                 }
                 else
                 {
-                    _writeFile(fileName, text);
+                    WriteFile(fileName, text);
                     MessageBox.Show("写入成功");
                 }
             }
@@ -178,14 +162,14 @@
 
         [DllImport("kernel32")]
         private static extern long WritePrivateProfileString(string section, string key, string val, string filePath);
-        public void WriteValue(string Section, string Key, string Value)
+        public void WriteValue(string section, string key, string value)
         {
-            WritePrivateProfileString(Section, Key, Value, this.filename);
+            WritePrivateProfileString(section, key, value, this.filename);
         }
 
-        public static void WriteValue(string Section, string Key, string Value, string filename)
+        public static void WriteValue(string section, string key, string value, string filename)
         {
-            WritePrivateProfileString(Section, Key, Value, filename);
+            WritePrivateProfileString(section, key, value, filename);
         }
     }
 }

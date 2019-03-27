@@ -1,0 +1,12 @@
+hrdmap  
+target:x=1;y=3
+block:id=0;x=1;y=0;text=曹操;picid=0;type=Target
+block:id=1;x=1;y=3;text=张飞;picid=6;type=Horizontal
+block:id=2;x=1;y=4;text=赵云;picid=7;type=Horizontal
+block:id=3;x=0;y=1;text=马超;picid=3;type=Vertical
+block:id=4;x=3;y=1;text=黄忠;picid=4;type=Vertical
+block:id=5;x=1;y=2;text=关羽;picid=5;type=Horizontal
+block:id=6;x=0;y=0;text=兵1;picid=10;type=One
+block:id=7;x=0;y=3;text=兵2;picid=10;type=One
+block:id=8;x=3;y=0;text=兵3;picid=10;type=One
+block:id=9;x=3;y=3;text=兵4;picid=10;type=One

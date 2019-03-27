@@ -3,9 +3,9 @@
     public enum BlockType
     {
         One,
-        TwoH,
-        TwoV,
-        Four
+        Horizontal,
+        Vertical,
+        Target
     }
 }
 

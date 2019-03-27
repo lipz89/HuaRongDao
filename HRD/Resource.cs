@@ -4,13 +4,17 @@ namespace HRD
 {
     static class Resource
     {
-        public static Image[] _Imgs = new Image[10];
-        public static Image Up, Left, Right, Down;
+        public static readonly Image[] Imgs = new Image[11];
+        public static readonly Image Up;
+        public static readonly Image Left;
+        public static readonly Image Right;
+        public static readonly Image Down;
+
         static Resource()
         {
-            for (int i = 0; i < _Imgs.Length; i++)
+            for (int i = 0; i < Imgs.Length; i++)
             {
-                _Imgs[i] = Image.FromFile("pic/" + i + ".jpg");
+                Imgs[i] = Image.FromFile("pic/" + i + ".jpg");
             }
             Up = Image.FromFile("pic/up.jpg");
             Left = Image.FromFile("pic/left.jpg");
